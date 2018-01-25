@@ -10,6 +10,8 @@ class Top extends CI_Controller
 {
 	public function view()
 	{
+		$this->load->view('commons/header.php');
 		$this->load->view('top/top.php');
+		$this->load->view('commons/footer.php');
 	}
 }
