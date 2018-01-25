@@ -1,0 +1,26 @@
+version: '2'
+services:
+  gup_db:
+    build: ./docker/db/
+    environment:
+      MYSQL_ROOT_PASSWORD: root1234
+      MYSQL_USER: app
+      MYSQL_PASSWORD: app1234
+    volumes:
+      - ./db_data/data:/var/lib/mysql
+      - ./db_data/logs:/var/log/mysql
+  gup_s3:
+    image: "scality/s3server:latest"
+    ports:
+      - "8000:8000"
+  gup_app:
+    build: ./docker/app/
+    ports:
+      - "8080:80"
+    links:
+      - gup_db
+      - gup_s3
+    volumes:
+      - ./src:/var/www/html
+    stdin_open: true
+    tty: true
